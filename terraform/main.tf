@@ -83,7 +83,7 @@ resource aws_spot_instance_request "master" {
 
   connection {
     user = "centos"
-    private_key = "${file("/home/alexey/.ssh/id_rsa")}"
+    private_key = "${file(var.private_key_path)}"
     host = "${self.public_ip}"
   }
 
@@ -116,7 +116,7 @@ resource aws_spot_instance_request "node" {
 
   connection {
     user = "centos"
-    private_key = "${file("/home/alexey/.ssh/id_rsa")}"
+    private_key = "${file(var.private_key_path)}"
     host = "${self.public_ip}"
   }
 
