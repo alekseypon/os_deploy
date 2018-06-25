@@ -1,0 +1,15 @@
+[OSEv3:children]
+masters
+nodes
+
+[OSEv3:vars]
+ansible_ssh_user=centos
+ansible_become=true
+openshift_deployment_type=origin
+
+[masters:children]
+tag_Role_master
+
+[nodes:children]
+tag_Role_node
+
