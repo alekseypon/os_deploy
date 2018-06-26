@@ -6,10 +6,31 @@ nodes
 ansible_ssh_user=centos
 ansible_become=true
 openshift_deployment_type=origin
+openshift_master_cluster_public_hostname=os.expllore.me.uk
+
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
+
+openshift_cloudprovider_kind=aws
+openshift_clusterid=openshift
+
+openshift_hosted_registry_storage_s3_chunksize=26214400
+openshift_hosted_registry_storage_s3_rootdirectory=/registry
+openshift_hosted_registry_pullthrough=true
+openshift_hosted_registry_acceptschema2=true
+openshift_hosted_registry_enforcequota=true
+openshift_hosted_registry_storage_kind=object
+openshift_hosted_registry_storage_provider=s3
+
 
 [masters:children]
 tag_Role_master
 
+[masters:vars]
+openshift_node_labels="{'region': 'infra','zone': 'default'}"
+openshift_schedulable=true
+
 [nodes:children]
 tag_Role_node
 
+[etcd:children]
+tag_Role_master
