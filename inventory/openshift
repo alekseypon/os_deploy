@@ -6,9 +6,10 @@ nodes
 ansible_ssh_user=centos
 ansible_become=true
 openshift_deployment_type=origin
+openshift_master_default_subdomain=apps.expllore.me.uk
 openshift_master_cluster_public_hostname=os.expllore.me.uk
 
-openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
 
 openshift_cloudprovider_kind=aws
 openshift_clusterid=openshift
@@ -30,6 +31,7 @@ openshift_node_labels="{'region': 'infra','zone': 'default'}"
 openshift_schedulable=true
 
 [nodes:children]
+tag_Role_master
 tag_Role_node
 
 [etcd:children]
