@@ -22,6 +22,11 @@ openshift_hosted_registry_enforcequota=true
 openshift_hosted_registry_storage_kind=object
 openshift_hosted_registry_storage_provider=s3
 
+openshift_metrics_install_metrics=true
+openshift_metrics_cassandra_storage_type=dynamic
+
+openshift_logging_install_logging=true
+openshift_logging_es_pvc_dynamic=true
 
 [masters:children]
 tag_Role_master

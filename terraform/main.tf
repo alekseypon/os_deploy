@@ -41,7 +41,7 @@ resource aws_security_group "sg_ec2_common" {
 
   tags {
     Name                              = "ec2-common"
-    "kubernetes.io/cluster/openshift" = "openshift"
+    "kubernetes.io/cluster/openshift" = "owned"
   }
 }
 
@@ -243,7 +243,7 @@ resource aws_spot_instance_request "master" {
   tags {
     Name                              = "master-${count.index}"
     Role                              = "master"
-    "kubernetes.io/cluster/openshift" = "openshift"
+    "kubernetes.io/cluster/openshift" = "owned"
   }
 
   connection {
@@ -291,7 +291,7 @@ resource aws_spot_instance_request "node" {
   tags {
     Name                              = "node-${count.index}"
     Role                              = "node"
-    "kubernetes.io/cluster/openshift" = "openshift"
+    "kubernetes.io/cluster/openshift" = "owned"
   }
 
   connection {
@@ -310,4 +310,24 @@ resource aws_spot_instance_request "node" {
       "bash /home/centos/provision.sh ${var.access_key} ${var.secret_key} ${var.region} ${self.id} ${self.spot_instance_id}",
     ]
   }
+}
+
+data "aws_route53_zone" "expllore" {
+  name         = "expllore.me.uk."
+}
+
+resource "aws_route53_record" "openshift_console" {
+  zone_id = "${data.aws_route53_zone.expllore.zone_id}"
+  name    = "os.${data.aws_route53_zone.expllore.name}"
+  type    = "A"
+  ttl     = "300"
+  records = ["${aws_spot_instance_request.master.0.public_ip}"]
+}
+
+resource "aws_route53_record" "openshift_apps" {
+  zone_id = "${data.aws_route53_zone.expllore.zone_id}"
+  name    = "*.apps.${data.aws_route53_zone.expllore.name}"
+  type    = "A"
+  ttl     = "300"
+  records = ["${aws_spot_instance_request.master.0.public_ip}"]
 }
