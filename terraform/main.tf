@@ -240,6 +240,13 @@ resource aws_spot_instance_request "master" {
     delete_on_termination = true
   }
 
+  ebs_block_device {
+    device_name           = "/dev/xvdc"
+    volume_size           = 100
+    volume_type           = "gp2"
+    delete_on_termination = true
+  }
+
   tags {
     Name                              = "master-${count.index}"
     Role                              = "master"
@@ -284,6 +291,13 @@ resource aws_spot_instance_request "node" {
   ebs_block_device {
     device_name           = "/dev/xvdb"
     volume_size           = 30
+    volume_type           = "gp2"
+    delete_on_termination = true
+  }
+
+  ebs_block_device {
+    device_name           = "/dev/xvdc"
+    volume_size           = 100
     volume_type           = "gp2"
     delete_on_termination = true
   }
