@@ -32,6 +32,13 @@ resource aws_security_group "sg_ec2_common" {
     #    cidr_blocks = ["${data.aws_vpc.default_vpc.cidr_block}"] # Source..
   }
 
+  ingress {
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+    self      = true
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -240,12 +247,12 @@ resource aws_spot_instance_request "master" {
     delete_on_termination = true
   }
 
-  ebs_block_device {
-    device_name           = "/dev/xvdc"
-    volume_size           = 100
-    volume_type           = "gp2"
-    delete_on_termination = true
-  }
+#  ebs_block_device {
+#    device_name           = "/dev/xvdc"
+#    volume_size           = 100
+#    volume_type           = "gp2"
+#    delete_on_termination = true
+#  }
 
   tags {
     Name                              = "master-${count.index}"
@@ -295,12 +302,12 @@ resource aws_spot_instance_request "node" {
     delete_on_termination = true
   }
 
-  ebs_block_device {
-    device_name           = "/dev/xvdc"
-    volume_size           = 100
-    volume_type           = "gp2"
-    delete_on_termination = true
-  }
+#  ebs_block_device {
+#    device_name           = "/dev/xvdc"
+#    volume_size           = 100
+#    volume_type           = "gp2"
+#    delete_on_termination = true
+#  }
 
   tags {
     Name                              = "node-${count.index}"
@@ -327,7 +334,7 @@ resource aws_spot_instance_request "node" {
 }
 
 data "aws_route53_zone" "expllore" {
-  name         = "expllore.me.uk."
+  name = "expllore.me.uk."
 }
 
 resource "aws_route53_record" "openshift_console" {

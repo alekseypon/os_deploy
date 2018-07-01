@@ -42,9 +42,11 @@ tag_Role_node
 [etcd:children]
 tag_Role_master
 
-[glusterfs:children]
-tag_Role_master
-tag_Role_node
+#[glusterfs:children]
+#tag_Role_master
+#tag_Role_node
 
-[glusterfs:vars]
-glusterfs_devices='[ "/dev/xvdc" ]'
+#[glusterfs:vars]
+#glusterfs_devices=[ "/dev/xvdc" ]
+
+
